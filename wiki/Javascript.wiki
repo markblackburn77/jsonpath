@@ -1,3 +1,4 @@
+#summary Javascript Usage and Example
 === Usage ===
 
 Include {{{jsonpath.js}}} in your HTML page and use the simple API consisting of one single function.
