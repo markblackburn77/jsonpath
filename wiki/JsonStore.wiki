@@ -1,0 +1,136 @@
+#summary Use a JSON structure as a data storage (PHP).
+
+=== Introduction ===
+
+JSONPath allows query access to JSON structures. JsonStore extends this for performing read, write and delete operations on JSON structures.
+
+=== Usage ===
+
+{{{
+class JsonStore {
+     asObj($jsonstr)
+     toString($obj)
+   & get(&$obj, $expr)
+     set(&$obj, $expr, $value)
+     add(&$obj, $parentexpr, $value, $name="")
+     remove(&$obj, $expr)
+}
+
+}}}
+
+=={{{JsonStore::asObj($jsonstr)}}}==
+
+*parameters:*
+
+   {{{$jsonstr (string)}}}
+
+   String representing the JSON structure.
+
+*return value:*
+   {{{(array)}}}
+
+   JSON structure as PHP array.
+
+==={{{JsonStore::toString($obj)}}}===
+
+*parameters:*
+
+   {{{$obj (array)}}}
+
+   JSON structure as PHP array.
+
+*return value:*
+   {{{(string)}}}
+
+   String representing the JSON structure.
+
+==={{{JsonStore::get($obj, $expr)}}}===
+
+*parameters:*
+
+   {{{$obj (reference to array)}}}
+
+   JSON structure as PHP array.
+
+   {{{$expr (string)}}}
+
+   JSONPath expression.
+
+*return value:*
+   {{{(any)}}}
+
+   reference to selected portion of JSON structure. In case of multiple matches only the first match is returned.
+
+==={{{JsonStore::set($obj, $expr, $value)}}}===
+
+*parameters:*
+
+   {{{$obj (reference to array)}}}
+
+   JSON structure as PHP array.
+
+   {{{$expr (string)}}}
+
+   JSONPath expression referencing the member of the JSON structure to modify.
+
+   {{{$value (basic type | array)}}}
+
+   New value of the selected portion of the JSON structure. In case of multiple matches only the first match is used.
+
+*return value:*
+
+   None
+
+==={{{JsonStore::add($obj, $parentexpr, $value [, $name])}}}===
+
+*parameters:*
+
+   {{{$obj (reference to array)}}}
+
+   JSON structure as PHP array.
+
+   {{{$parentexpr (string)}}}
+
+   JSONPath expression referencing the parent member of the JSON structure. In case of multiple matches only the first match is used.
+
+   {{{$value (basic type | array)}}}
+
+   New value to add to the parent member of the JSON structure.
+
+  {{{$name (string) (optional)}}}
+
+   Name of the new value to add to the parent member of the JSON structure. If missing an indexed array is assumed and the new value is appended to that array.
+
+*return value:*
+
+   None
+
+==={{{JsonStore::remove($obj, $expr)}}}===
+
+*parameters:*
+
+   {{{$obj (reference to array)}}}
+
+   JSON structure as PHP array.
+
+   {{{$expr (string)}}}
+
+   JSONPath expression referencing the member of the JSON structure to remove.
+In case of multiple matches only the first match is used.
+
+*return value:*
+
+   {{{true|false}}}
+
+   Boolean value to indicate the success of the operation.
+
+
+
+
+
+
+
+
+
+
+
