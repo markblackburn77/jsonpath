@@ -122,7 +122,7 @@ class JsonStore {
 
    {{{true|false}}}
 
-   Boolean value to indicate the success of the operation.
+   Boolean value indicating the success of the operation.
 
 === Example ===
 {{{
@@ -226,7 +226,6 @@ results in the new JSON structure
   }
 }
 }}}
-
 
 
 
