@@ -3,7 +3,7 @@
 
 === Introduction ===
 
-JSONPath allows query access to JSON structures. JsonStore extends this feature to perform read, write and delete operations on JSON structures. You can download {{{jsonstore.php}}} from the [http://jsonpath.googlecode.com/svn/trunk/etc/ repository].
+JSONPath allows query access to JSON structures. JsonStore is a helper class which extends JSONPath in order to perform read, write and delete operations on JSON structures. You can download {{{jsonstore.php}}} from the [http://jsonpath.googlecode.com/svn/trunk/etc/ repository].
 
 === Usage ===
 
@@ -226,7 +226,6 @@ results in the new JSON structure
   }
 }
 }}}
-
 
 
 
