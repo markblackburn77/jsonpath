@@ -2,7 +2,7 @@
 
 === Introduction ===
 
-JSONPath allows query access to JSON structures. JsonStore extends this for performing read, write and delete operations on JSON structures.
+JSONPath allows query access to JSON structures. JsonStore extends this to perform read, write and delete operations on JSON structures.
 
 === Usage ===
 
@@ -31,7 +31,7 @@ class JsonStore {
 
    JSON structure as PHP array.
 
-==={{{JsonStore::toString($obj)}}}===
+=={{{JsonStore::toString($obj)}}}==
 
 *parameters:*
 
@@ -44,7 +44,7 @@ class JsonStore {
 
    String representing the JSON structure.
 
-==={{{JsonStore::get($obj, $expr)}}}===
+=={{{JsonStore::get($obj, $expr)}}}==
 
 *parameters:*
 
@@ -61,7 +61,7 @@ class JsonStore {
 
    reference to selected portion of JSON structure. In case of multiple matches only the first match is returned.
 
-==={{{JsonStore::set($obj, $expr, $value)}}}===
+=={{{JsonStore::set($obj, $expr, $value)}}}==
 
 *parameters:*
 
@@ -81,7 +81,7 @@ class JsonStore {
 
    None
 
-==={{{JsonStore::add($obj, $parentexpr, $value [, $name])}}}===
+=={{{JsonStore::add($obj, $parentexpr, $value [, $name])}}}==
 
 *parameters:*
 
@@ -105,7 +105,7 @@ class JsonStore {
 
    None
 
-==={{{JsonStore::remove($obj, $expr)}}}===
+=={{{JsonStore::remove($obj, $expr)}}}==
 
 *parameters:*
 
@@ -115,8 +115,7 @@ class JsonStore {
 
    {{{$expr (string)}}}
 
-   JSONPath expression referencing the member of the JSON structure to remove.
-In case of multiple matches only the first match is used.
+   JSONPath expression referencing the member of the JSON structure to remove. In case of multiple matches only the first match is used.
 
 *return value:*
 
@@ -124,9 +123,108 @@ In case of multiple matches only the first match is used.
 
    Boolean value to indicate the success of the operation.
 
+=== Example ===
+{{{
+<?php
+require_once('jsonstore.php');
 
+$json = '
+{ "store": {
+    "book": [ 
+      { "category": "reference",
+        "author": "Nigel Rees",
+        "title": "Sayings of the Century",
+        "price": 8.95
+      },
+      { "category": "fiction",
+        "author": "Evelyn Waugh",
+        "title": "Sword of Honour",
+        "price": 12.99
+      },
+      { "category": "fiction",
+        "author": "Herman Melville",
+        "title": "Moby Dick",
+        "isbn": "0-553-21311-3",
+        "price": 8.99
+      },
+      { "category": "fiction",
+        "author": "J. R. R. Tolkien",
+        "title": "The Lord of the Rings",
+        "isbn": "0-395-19395-8",
+        "price": 22.99
+      }
+    ],
+    "bicycle": {
+      "color": "red",
+      "price": 19.95
+    }
+  }
+}
+';
 
+$o = JsonStore::asObj($json);
 
+JsonStore::set($o, "$..book[1].author", "Arthur Evelyn St. John Waugh");
+$x =& JsonStore::get($o, "$..book[?(@['price'] == 12.99)]");
+$x['category'] = "novel";
+JsonStore::add($o, "$..book[1]", "id-007", "id");
+JsonStore::set($o, "$..book[?(@['price'] == 8.99)].category", "drama");
+JsonStore::remove($o, "$..book[2].isbn");
+JsonStore::add($o, "$.store.book", JsonStore::asObj('{"author": "D. Adams", "title": "Hitchhiker\'s Guide through the Galaxy"}'));
+JsonStore::add($o, "$..book[4]", 8.91, "price");
+JsonStore::add($o, "$..book[-1:]", true, "sellout");
+
+$json = JsonStore::toString($o);
+print($json);
+?>
+}}}
+
+results in the new JSON structure
+
+{{{
+{
+  "store":{
+    "book":[
+      {
+        "category":"reference",
+        "author":"Nigel Rees",
+        "title":"Sayings of the Century",
+        "price":8.95
+      },
+      {
+        "category":"novel",
+        "author":"Arthur Evelyn St. John Waugh",
+        "title":"Sword of Honour",
+        "price":12.99,
+        "id":"id-007"
+      },
+      {
+        "category":"drama",
+        "author":"Herman Melville",
+        "title":"Moby Dick",
+        "price":8.99
+      },
+      {
+        "category":"fiction",
+        "author":"J. R. R. Tolkien",
+        "title":"The Lord of the Rings",
+        "isbn":"0-395-19395-8",
+        "price":22.99
+      },
+      {
+        "author":"D. Adams",
+        "title":"Hitchhiker's Guide through the Galaxy",
+        "price":8.91,
+        "sellout":true
+      }
+    ],
+    "bicycle":{
+      "color":"red",
+      "price":19.95
+    }
+  }
+}
+}}}
 
 
 
